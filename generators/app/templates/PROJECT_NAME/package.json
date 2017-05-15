@@ -1,10 +1,13 @@
 {
-    "name": "generator-node-ts-wp",
+    "name": "<%= project_name %>",
     "version": "0.0.0",
     "description": "",
-    "files": ["generators"],
-    "keywords": ["yeoman-generator"],
+    "scripts": {
+        "build": "node node_modules/webpack/bin/webpack.js",
+        "start": "node dist/main.js"
+    },
+    "files": [""],
+    "keywords": [""],
     "dependencies": {
-        "yeoman-generator": "^1.0.0"
     }
 }

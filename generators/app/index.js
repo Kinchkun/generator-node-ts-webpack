@@ -1,5 +1,6 @@
 var Generator = require('yeoman-generator');
 var glob = require('glob');
+var exec = require("child_process").exec;
 
 module.exports = class extends Generator {
     prompting() {
@@ -16,7 +17,11 @@ module.exports = class extends Generator {
 
     writing() {
         var writeTemplate = rawPath => {
-            source = rawPath.replace(/PROJECT_NAME/, this.answers.project_name);
+            const source = rawPath.replace(/PROJECT_NAME/, this.answers.project_name);
+            this.fs.copyTpl(
+                this.templatePath(rawPath),
+                this.destinationPath(source),
+                this.answers);
         }
 
         var files = glob.sync('**/*', {
@@ -24,8 +29,33 @@ module.exports = class extends Generator {
             nodir: true
         });
 
-        files.forEach(file => {
+        files.forEach(writeTemplate);
+    }
+    install() {
+        this.npmInstall([
+            "webpack",
+            "typescript",
+            "ts-loader",
+            "optimist",
+            "@types/optimist"
+            ],
+            {
+                "save-dev": true
+            },
+            null,
+            {
+                cwd: this.answers.project_name
+            });
 
-        });
+            this.spawnCommandSync("git", ["init"], {
+                cwd: this.answers.project_name
+            });
+            this.spawnCommandSync("git", ["add", "."], {
+                cwd: this.answers.project_name
+            });
+            this.spawnCommandSync("git", ["commit", "-m", "init"], {
+                cwd: this.answers.project_name
+            });
+
     }
 };
