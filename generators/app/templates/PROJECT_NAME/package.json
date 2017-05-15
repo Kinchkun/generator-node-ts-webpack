@@ -1,0 +1,10 @@
+{
+    "name": "generator-node-ts-wp",
+    "version": "0.0.0",
+    "description": "",
+    "files": ["generators"],
+    "keywords": ["yeoman-generator"],
+    "dependencies": {
+        "yeoman-generator": "^1.0.0"
+    }
+}
