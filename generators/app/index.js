@@ -26,13 +26,14 @@ module.exports = class extends Generator {
 
         var files = glob.sync('**/*', {
             cwd: this.templatePath('.'),
-            nodir: true
+            nodir: true,
+            dot: true
         });
 
         files.forEach(writeTemplate);
     }
     install() {
-        this.npmInstall([
+        false && this.npmInstall([
             "webpack",
             "typescript",
             "ts-loader",
@@ -46,7 +47,9 @@ module.exports = class extends Generator {
             {
                 cwd: this.answers.project_name
             });
+    }
 
+    end() {
             this.spawnCommandSync("git", ["init"], {
                 cwd: this.answers.project_name
             });
@@ -56,6 +59,5 @@ module.exports = class extends Generator {
             this.spawnCommandSync("git", ["commit", "-m", "init"], {
                 cwd: this.answers.project_name
             });
-
     }
 };
